@@ -1,10 +1,20 @@
-var TriggmineApi = (function () {
+;(function (exports) {
   'use strict';
 
   var apiModuleInstance;
   var moduleConfig;
-  var deviceId = new Fingerprint().get();
-  var deviceId1 =  new ClientJS().getFingerprint();
+  var deviceId = '';
+  var deviceId1 =  '';
+  var _axios;
+
+  if(typeof Fingerprint == 'function') {
+    deviceId = new Fingerprint().get();
+  }
+
+  if(typeof ClientJS == 'function') {
+    deviceId1 =  new ClientJS().getFingerprint();
+  }
+
   var eventsEndpointMap = {
     PluginDiagnosticEvent: '/control/api/plugin/onDiagnosticInformationUpdated',
     CartEvent: '/api/events/cart',
@@ -159,7 +169,7 @@ var TriggmineApi = (function () {
      * @returns {Function}
      */
     var postEvent = function (eventUrl, eventData, headers) {
-      return axios.post(eventUrl, _setRequestDeviceInfo(eventData), headers);
+      return _axios.post(eventUrl, _setRequestDeviceInfo(eventData), headers);
     };
 
     /**
@@ -296,9 +306,10 @@ var TriggmineApi = (function () {
    * @param {string} cfg.apiUrl - TriggMine API unique URL
    * @param {string} cfg.apiKey - TriggMine API key
    * @param {boolean} [cfg.debug] - debug mode
+   * @param {function} [cfg.axios] - http client
    * @returns {TriggmineApi}
    */
-  var moduleAPI = function (cfg) {
+  exports.TriggmineApi = function (cfg) {
 
     if (typeof apiModuleInstance == 'undefined') {
 
@@ -306,7 +317,7 @@ var TriggmineApi = (function () {
         throw new Error("TriggMine: API Config not provided!");
       }
 
-      if(!cfg.hasOwnProperty('apiUrl')) {
+      if(!cfg.apiUrl) {
         throw new Error("TriggMine: API URL not provided! (apiUrl)");
       }
 
@@ -314,7 +325,7 @@ var TriggmineApi = (function () {
         throw new Error("TriggMine: Wrong API URL Format!");
       }
 
-      if(!cfg.hasOwnProperty('apiKey')) {
+      if(!cfg.apiKey) {
         throw new Error("TriggMine: API key not provided! (apiKey)");
       }
 
@@ -322,6 +333,11 @@ var TriggmineApi = (function () {
         return new TriggmineApi(cfg);
       }
 
+      if(!exports.axios && !cfg.axios) {
+        throw new Error("TriggMine: axios wasn't initialized!");
+      }
+
+      _axios = exports.axios || cfg.axios;
       apiModuleInstance = this;
       moduleConfig = cfg;
       _initModule();
@@ -330,5 +346,4 @@ var TriggmineApi = (function () {
     return apiModuleInstance;
   };
 
-  return moduleAPI;
-})();
+})(typeof exports === 'undefined' ? this : exports);
