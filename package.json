@@ -1,0 +1,23 @@
+{
+  "name": "triggmine-js-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type" : "git" ,
+    "url" : "https://github.com/TriggMineAdmin/TriggMine-JS-SDK.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "clientjs": "^0.1.11",
+    "fingerprintjs": "^0.5.3"
+  },
+  "author": "Alex Feskov",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.3.0"
+  }
+}
