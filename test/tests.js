@@ -1,13 +1,11 @@
 var assert = require('assert');
-var axios = require('axios');
-var api = require('./../index.js');
+var api = require('./../dist/bundle.js');
 var fakeData = require('./test-data.js');
 
 var TriggmineApi = new api.TriggmineApi({
-  apiUrl: "[YOUR API URL]",
-  apiKey: "[YOUR API KEY]",
-  debug: true,
-  axios: axios
+  apiUrl: "https://cabinet1502825149.triggmine.com.ua",
+  apiKey: "92b2d6baa2364fb9890e219476786d02",
+  debug: true
 });
 
 var eventsList = [

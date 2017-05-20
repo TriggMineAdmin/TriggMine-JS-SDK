@@ -1,11 +1,11 @@
-;(function (exports) {
+;(function () {
   'use strict';
 
+  var axios = require('axios');
   var apiModuleInstance;
   var moduleConfig;
   var deviceId = '';
   var deviceId1 =  '';
-  var _axios;
 
   if(typeof Fingerprint == 'function') {
     deviceId = new Fingerprint().get();
@@ -87,6 +87,8 @@
     this.eventType = opts.eventType;
     this.eventUrl  = opts.eventUrl;
     this.data      = opts.data;
+    this.deviceId  = opts.deviceId || '';
+    this.deviceId1 = opts.deviceId1 || '';
   };
 
 
@@ -107,7 +109,7 @@
    */
   function _setRequestDeviceInfo (reqData, lowLevel) {
     var obj;
-    if(reqData && isObject(reqData)) {
+    if(reqData && isObject(reqData) && !reqData.deviceId && !reqData.deviceId1) {
       obj = reqData;
       for(var key in obj) {
         if(obj.hasOwnProperty(key)) {
@@ -169,7 +171,7 @@
      * @returns {Function}
      */
     var postEvent = function (eventUrl, eventData, headers) {
-      return _axios.post(eventUrl, _setRequestDeviceInfo(eventData), headers);
+      return axios.post(eventUrl, _setRequestDeviceInfo(eventData), headers);
     };
 
     /**
@@ -309,7 +311,7 @@
    * @param {function} [cfg.axios] - http client
    * @returns {TriggmineApi}
    */
-  exports.TriggmineApi = function (cfg) {
+  var _TriggmineApi = function (cfg) {
 
     if (typeof apiModuleInstance == 'undefined') {
 
@@ -333,11 +335,6 @@
         return new TriggmineApi(cfg);
       }
 
-      if(!exports.axios && !cfg.axios) {
-        throw new Error("TriggMine: axios wasn't initialized!");
-      }
-
-      _axios = exports.axios || cfg.axios;
       apiModuleInstance = this;
       moduleConfig = cfg;
       _initModule();
@@ -346,4 +343,10 @@
     return apiModuleInstance;
   };
 
-})(typeof exports === 'undefined' ? this : exports);
+  if (typeof window === 'undefined') {
+    exports.TriggmineApi = _TriggmineApi;
+  } else {
+    window.TriggmineApi = _TriggmineApi;
+  }
+
+})();

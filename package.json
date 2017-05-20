@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "repository": {
-    "type" : "git" ,
-    "url" : "https://github.com/TriggMineAdmin/TriggMine-JS-SDK.git"
+    "type": "git",
+    "url": "https://github.com/TriggMineAdmin/TriggMine-JS-SDK.git"
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "webpack"
   },
   "dependencies": {
     "axios": "^0.16.1",
@@ -18,6 +19,7 @@
   "author": "Alex Feskov",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^3.3.0"
+    "mocha": "^3.3.0",
+    "webpack": "^2.5.1"
   }
 }
