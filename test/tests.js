@@ -1,10 +1,10 @@
 var assert = require('assert');
-var api = require('./../dist/bundle.js');
+var api = require('./../index.js');
 var fakeData = require('./test-data.js');
 
 var TriggmineApi = new api.TriggmineApi({
-  apiUrl: "https://cabinet1502825149.triggmine.com.ua",
-  apiKey: "92b2d6baa2364fb9890e219476786d02",
+  apiUrl: '[YOUR API URL]',
+  apiKey: '[YOUR API KEY]',
   debug: true
 });
 
