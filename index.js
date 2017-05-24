@@ -1,6 +1,7 @@
 ;(function () {
   'use strict';
 
+  var ERR_PREFIX = 'TriggMine API: ';
   var axios = require('axios');
   var apiModuleInstance;
   var moduleConfig;
@@ -15,6 +16,9 @@
     deviceId1 =  new ClientJS().getFingerprint();
   }
 
+  /**
+   * Event Name-to-Endpoint Map
+   */
   var eventsEndpointMap = {
     PluginDiagnosticEvent: '/control/api/plugin/onDiagnosticInformationUpdated',
     CartEvent: '/api/events/cart',
@@ -27,11 +31,25 @@
   };
 
 
+  /**
+   * PluginDiagnosticEvent object - is sent to the server in debug mode to initialize the integration
+   */
   var pluginDiagnosticEvent = {
     "dateCreated" : getDateTime(),
     "diagnosticType" : "InstallPlugin",
     "description" : "JS SDK",
     "status" : 1
+  };
+
+
+  /**
+   * Logging errors
+   * @param {string} msg
+   */
+  var errLogger = function (msg) {
+    if(window.console && window.console.error) {
+      console.error(ERR_PREFIX + msg);
+    }
   };
 
 
@@ -68,7 +86,11 @@
    * @returns {boolean}
    */
   function isObject (obj) {
-    return obj && typeof obj == 'object';
+    var isObj = obj != null && Object.prototype.toString.call(obj) === '[object Object]';
+    if(!isObj) {
+      errLogger('Incorrect data format (is not an object)');
+    }
+    return isObj;
   }
 
 
@@ -106,7 +128,7 @@
   /**
    *
    * @param {BaseEvent} baseEvent
-   * @param {boolean} lowLevel - is low level object flag
+   * @param {boolean} [lowLevel] - is low level object flag
    * @returns {*}
    */
   function _setRequestDeviceInfo (baseEvent, lowLevel) {
@@ -145,17 +167,17 @@
   /**
    *
    * @param {BaseEvent} baseEvent
-   * @param {function} debugSuccessCallback
-   * @param {function} debugErrorCallback
+   * @param {function} [debugSuccessCallback]
+   * @param {function} [debugErrorCallback]
    */
   function _sendEvent (baseEvent, debugSuccessCallback, debugErrorCallback) {
 
     if(!baseEvent) {
-      throw new Error("TriggMine API: Event not specified!");
+      throw new Error(ERR_PREFIX + 'Event not specified!');
     }
 
     if(!baseEvent.data) {
-      throw new Error("TriggMine API: Event data not set!");
+      throw new Error(ERR_PREFIX + 'Event data not set!');
     }
 
     var headers = {
@@ -167,40 +189,31 @@
     /**
      *
      * @param {BaseEvent} baseEvent
-     * @param {Object} headers
+     * @param {Object} headers - http request headers
      * @returns {Function}
      */
     var postEvent = function (baseEvent, headers) {
       return axios.post(baseEvent.getApiUrl(), _setRequestDeviceInfo(baseEvent), headers);
     };
 
-    /**
-     * Logging errors
-     * @param {string} msg
-     */
-    var logger = function (msg) {
-      if(window.console && window.console.error) {
-        console.error(msg);
-      }
-    };
 
     /**
      * Parses response error messages
      * @param {Object} error
      * @param {BaseEvent} baseEvent
      */
-    var errorLog = function (error, baseEvent) {
+    var errParser = function (error, baseEvent) {
       if(error && typeof error == 'object' && error.response && error.response.data) {
         var errData = error.response.data;
         if(errData.hasOwnProperty('Message')) {
-          logger(errData['Message'] + ' --- ' + baseEvent.eventUrl + ' (' + baseEvent.eventType + ')');
+          errLogger(errData['Message'] + ' --- ' + baseEvent.eventUrl + ' (' + baseEvent.eventType + ')');
         }
 
         if(errData.hasOwnProperty('ModelState')) {
           var state = errData['ModelState'];
           for(var x in state) {
             if(state.hasOwnProperty(x)) {
-              logger(state[x].join(' '));
+              errLogger(state[x].join(' '));
             }
           }
         }
@@ -228,7 +241,7 @@
              */
             debugErrorCallback(error, baseEvent);
           } else {
-            errorLog(error, baseEvent);
+            errParser(error, baseEvent);
           }
         }
       });
@@ -316,19 +329,19 @@
     if (typeof apiModuleInstance == 'undefined') {
 
       if(!cfg) {
-        throw new Error("TriggMine: API Config not provided!");
+        throw new Error(ERR_PREFIX + 'API Config not provided!');
       }
 
       if(!cfg.apiUrl) {
-        throw new Error("TriggMine: API URL not provided! (apiUrl)");
+        throw new Error(ERR_PREFIX + 'API URL not provided! (apiUrl)');
       }
 
       if(!isUrl(cfg.apiUrl)) {
-        throw new Error("TriggMine: Wrong API URL Format!");
+        throw new Error(ERR_PREFIX + 'Wrong API URL Format!');
       }
 
       if(!cfg.apiKey) {
-        throw new Error("TriggMine: API key not provided! (apiKey)");
+        throw new Error(ERR_PREFIX + 'API key not provided! (apiKey)');
       }
 
       if(this == undefined) {
