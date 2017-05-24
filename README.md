@@ -113,5 +113,6 @@ customer_date_created|Customer Registration Date|
 user_agent|navigator.userAgent. Optional parameter|
 
 Device hash ClientJS*, FingerprintJS*
+
 Customer Id** - Unique Customer Id in your database.
 
