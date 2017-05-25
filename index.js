@@ -268,15 +268,15 @@
    * @param {string} type
    * @param {string} url - API endpoint
    * @param {string} base - API base URL
-   * @param {string} [deviceId] - FingerprintJS device hash (required when using SDK with node.js)
-   * @param {string} [deviceId1] - Client.js device hash (required when using SDK with node.js)
    * @returns {Function}
    */
-  var createEventConstructor = function (type, url, base, deviceId, deviceId1) {
+  var createEventConstructor = function (type, url, base) {
     /**
      * @param {Object} data - JSON event Data
+     * @param {string} [deviceId] - FingerprintJS device hash (required when using SDK with node.js)
+     * @param {string} [deviceId1] - Client.js device hash (required when using SDK with node.js)
      * */
-    return function (data) {
+    return function (data, deviceId, deviceId1) {
       return new BaseEvent({
         baseUrl: base,
         eventType: type,
