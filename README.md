@@ -26,6 +26,18 @@ Browser (using cdn):
 <script src="dist/bundle.js"></script>
 ```
 
+Building with webpack
+
+```bash
+$ npm run build
+```
+
+Running tests
+
+```bash
+$ npm test
+```
+
 
 ## Examples
 
