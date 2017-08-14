@@ -18,18 +18,12 @@ Using bower:
 $ bower install triggmine-js-sdk
 ```
 
-Browser (using cdn):
+Browser:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs/0.5.3/fingerprint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js"></script>
-<script src="dist/bundle.js"></script>
-```
-
-Building with webpack
-
-```bash
-$ npm run build
+<script src="./path/to/triggmine.min.js"></script>
 ```
 
 Running tests
