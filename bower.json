@@ -1,0 +1,17 @@
+{
+  "name": "triggmine-js-sdk",
+  "description": "TriggMine is an automated email marketing platform, tailored to the eCommerce needs.",
+  "main": "./dist/triggmine.min.js",
+  "authors": [
+    "TriggMine"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/TriggMineAdmin/TriggMine-JS-SDK",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

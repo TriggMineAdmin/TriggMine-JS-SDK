@@ -1,0 +1,25 @@
+{
+  "name": "triggmine-js-sdk",
+  "version": "1.0.0",
+  "description": "TriggMine is an automated email marketing platform, tailored to the eCommerce needs.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TriggMineAdmin/TriggMine-JS-SDK.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "clientjs": "^0.1.11",
+    "fingerprintjs": "^0.5.3"
+  },
+  "author": "Alex Feskov",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "mocha": "^3.3.0",
+    "webpack": "^2.5.1"
+  }
+}
