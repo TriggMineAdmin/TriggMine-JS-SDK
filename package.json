@@ -1,7 +1,7 @@
 {
   "name": "triggmine-js-sdk",
   "version": "1.0.0",
-  "description": "",
+  "description": "TriggMine is an automated email marketing platform, tailored to the eCommerce needs.",
   "repository": {
     "type": "git",
     "url": "https://github.com/TriggMineAdmin/TriggMine-JS-SDK.git"
