@@ -17,7 +17,7 @@
     "fingerprintjs": "^0.5.3"
   },
   "author": "Alex Feskov",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "mocha": "^3.3.0",
     "webpack": "^2.5.1"

@@ -5,7 +5,7 @@
   "authors": [
     "TriggMine"
   ],
-  "license": "Apache",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/TriggMineAdmin/TriggMine-JS-SDK",
   "ignore": [
     "**/.*",
